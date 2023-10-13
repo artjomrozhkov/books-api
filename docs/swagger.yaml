@@ -1,0 +1,101 @@
+openapi: 3.0.2
+info:
+    title: books-api
+    version: 1.0.0
+    description: >-
+        ### This is a Swagger UI for our Games API  
+
+
+        ### Error handling
+
+        Errors are presented using the HTTP status codes 400-599. The response include a more detailed
+        explanation about the error in the body.
+
+
+        ```
+
+        {
+          "error": "Cleartext explanation of the error that occurred"
+        }
+
+        ```
+
+
+        ### Generic API errors
+
+        These error responses can be returned by any of the described endpoints.
+
+
+        | HTTP status  |  Description |
+
+        |---|---|
+
+        | 400| Bad input parameters or invalid request. More information can be found in the response body.
+
+        | 401| The consumer does not have access to the requested resource or the provided token is not valid.
+
+        | 404| The requested resource can not be found or the user does not have access to the resource.
+
+        | 5XX| A server error has occurred while processing the request.
+paths:
+    /games:
+        get:
+            tags:
+                - games
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                List of games:
+                                    value: |-
+                                        [
+                                            "Witcher 3"
+                                            "Cyberpunk 2077"
+                                        ]
+                    description: 'lisa Returns a list of games, kus games on vastav sinu API-le..'
+            summary: Get a list of all games
+            description: Returns a list of all games in API
+    '/games/{id}':
+        get:
+            tags:
+                - details
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                Full details of a given game:
+                                    value: '{"id:1,"name":"Witcher 3","price:29.99}'
+                    description: OK
+                '404':
+                    description: |
+                        Not found
+            deprecated: false
+            operationId: id
+            summary: Get full details of a game
+            description: Returns full details of a given id game
+        parameters:
+            -
+                name: id
+                in: path
+                required: true
+components:
+    schemas:
+        error:
+            title: Root Type for error
+            description: ''
+            type: object
+            properties:
+                error:
+                    type: string
+            example:
+                error: Error message.
